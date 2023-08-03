@@ -13,6 +13,8 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate
     
     
     
+    @IBOutlet weak var buttonYes: UIButton!
+    @IBOutlet weak var buttonNo: UIButton!
     @IBOutlet private weak var counterLabel: UILabel!
     @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var textLabel: UILabel!
@@ -80,6 +82,8 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate
         
     
     @IBAction private func yesButtonClicked(_ sender: UIButton) {
+        
+        sender.isEnabled = false
         guard let currentQuestion = currentQuestion else {
             return
         }
@@ -90,6 +94,8 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate
     
     
     @IBAction private func noButtonClicked(_ sender: UIButton) {
+        
+        sender.isEnabled = false
         guard let currentQuestion = currentQuestion else {
             return
         }
@@ -116,6 +122,9 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate
         }
     }
         private func showNextQuestionOrResult() {
+            
+            buttonNo.isEnabled = true
+            buttonYes.isEnabled = true
             if currentQuestionIndex == questionsAmount - 1 {
                 showFinalResults()
             }
@@ -131,7 +140,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate
         
         
         
-        let alertModel = AlertModel(title: "Игра окончена",
+        let alertModel = AlertModel(title: "Этот раунд окончен!",
                                     message: makeResultMessage(),
                                     buttonText: "Сыграть еще раз",
                                     buttonAction: { [weak self] in
