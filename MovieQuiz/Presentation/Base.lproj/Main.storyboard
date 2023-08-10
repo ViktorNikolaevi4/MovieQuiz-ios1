@@ -112,18 +112,24 @@
                                     <constraint firstItem="EDy-WM-bxV" firstAttribute="centerX" secondItem="iL6-ak-kok" secondAttribute="centerX" id="xZX-1J-gzx"/>
                                 </constraints>
                             </stackView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="8S5-mv-p5F">
+                                <rect key="frame" x="204" y="453" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="YP Black"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="iL6-ak-kok" secondAttribute="bottom" id="2Wi-Mh-F0I"/>
+                            <constraint firstItem="8S5-mv-p5F" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Dva-yA-lpV"/>
                             <constraint firstItem="4D5-VN-ztk" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Ksz-ML-RiE"/>
                             <constraint firstItem="iL6-ak-kok" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="NZy-yk-kfH"/>
                             <constraint firstItem="iL6-ak-kok" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="aPZ-0k-6xY"/>
+                            <constraint firstItem="8S5-mv-p5F" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="oIr-fE-5Im"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="iL6-ak-kok" secondAttribute="trailing" constant="20" id="w9z-XP-lHr"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="8S5-mv-p5F" id="7dM-Ab-bJ9"/>
                         <outlet property="buttonNo" destination="DdI-2y-Nxm" id="yRr-uB-5pv"/>
                         <outlet property="buttonYes" destination="gfh-7o-NyF" id="LlA-3R-eIW"/>
                         <outlet property="counterLabel" destination="LQe-1S-dkp" id="22V-ZF-lyp"/>

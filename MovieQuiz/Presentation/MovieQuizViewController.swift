@@ -13,6 +13,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate
     
     
     
+    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var buttonYes: UIButton!
     @IBOutlet weak var buttonNo: UIButton!
     @IBOutlet private weak var counterLabel: UILabel!
@@ -28,9 +29,27 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate
     private var alertPresenter: AlertPresenter?
     private var statisticService: StatisticService?
     
+    private func showLoadingIndicator() {
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
+    }
+    
+    private func showNetworkeError(message: String) {
+        
+        let model = AlertModel(title: "Ошибка", message: message, buttonText: "Попробовать еще раз") {[weak self] in guard let self = self else {return}
+            
+            self.currentQuestionIndex = 0
+            self.correctAnswers = 0
+            
+            self.questionFactory?.requestNextQuestion()
+        }
+        
+        alertPresenter?.show(alertModel: model)
+    }
+    
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
         let questionStep = QuizStepViewModel(
-            image: UIImage(named: model.image) ?? UIImage(),
+            image: UIImage(data: model.image) ?? UIImage(),
             question: model.text,
             questionNumber: "\(currentQuestionIndex + 1)/\(questionsAmount)")
         return questionStep
@@ -51,10 +70,14 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate
     override func viewDidLoad() {
         print(NSHomeDirectory())
         super.viewDidLoad()
-        questionFactory = QuestionFactory(delegate: self)
+        
+        questionFactory = QuestionFactory(moviesLoader: MoviesLoader(), delegate: self)
         alertPresenter = AlertPresenterImp1(viewController: self)
         statisticService = StatisticServiceImplementation()
-        questionFactory?.requestNextQuestion()
+        
+        showLoadingIndicator()
+        questionFactory?.loadData()
+        questionFactory?.requestNextQuestion() //Удалить?
 //        var documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
 //        let fileName = "inception.json"
 //        documentsURL.appendPathComponent(fileName)
@@ -168,6 +191,16 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate
         let resultMessage = [
             currentGamesResultLine, totalPlayCountLine, bestGameInfoLine, averageAccuracyLine].joined(separator: "\n")
         return resultMessage
+    }
+    func didLoadDataFromServer() {
+        activityIndicator.isHidden = true
+        questionFactory?.requestNextQuestion()
+
+    }
+
+    func didFailToLoadData(with error: Error) {
+        showNetworkeError(message: error.localizedDescription)
+
     }
     
     }
